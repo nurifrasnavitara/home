@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mrs. Nuri Frasna Vitara | English Teacher - SMP Muhammadiyah 9 Nagreg</title>
+<title>Mrs. Nuri Frasna Vitara | English Teacher</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -52,7 +52,8 @@
     background:rgba(255,248,238,0.85);
     backdrop-filter:blur(10px);
     border-bottom:1px solid rgba(39,49,79,0.06);
-    transition:all 0.3s ease;
+    transition:transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s ease;
+    will-change:transform;
   }
   .nav-wrap{
     max-width:1180px;
@@ -129,7 +130,79 @@
     transform:translateY(-2px);
   }
 
-  .nav-toggle{display:none;background:none;border:none;font-size:1.6rem;color:var(--navy);cursor:pointer;}
+  /* ====== MOBILE NAV OVERLAY ====== */
+  .mobile-nav{
+    position:fixed;
+    top:0; right:0;
+    width:78%;
+    max-width:320px;
+    height:100vh;
+    background:var(--white);
+    z-index:1100;
+    transform:translateX(100%);
+    transition:transform 0.35s ease;
+    box-shadow:-20px 0 50px -20px rgba(39,49,79,0.3);
+    display:flex;
+    flex-direction:column;
+    padding:100px 32px 40px;
+  }
+  .mobile-nav.open{transform:translateX(0);}
+  .mobile-nav a{
+    text-decoration:none;
+    color:var(--navy);
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:1.25rem;
+    padding:16px 0;
+    border-bottom:1px solid rgba(39,49,79,0.06);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .mobile-nav .nav-cta{
+    display:inline-flex;
+    justify-content:center;
+    margin-top:24px;
+  }
+  .nav-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(39,49,79,0.4);
+    z-index:1050;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity 0.35s ease;
+  }
+  .nav-backdrop.open{
+    opacity:1;
+    visibility:visible;
+  }
+
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:none;
+    cursor:pointer;
+    width:42px;height:42px;
+    border-radius:12px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    background:var(--white);
+    box-shadow:var(--shadow-soft);
+    flex-shrink:0;
+  }
+  .nav-toggle span{
+    display:block;
+    width:20px;height:2.5px;
+    border-radius:2px;
+    background:var(--navy);
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+  .nav-toggle.active span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+  .nav-toggle.active span:nth-child(2){opacity:0;}
+  .nav-toggle.active span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
 
   /* ====== HERO ====== */
   .hero{
@@ -296,8 +369,8 @@
     animation:floaty 4.5s ease-in-out infinite;
   }
   .floating-tag.tag1{ top:6%; left:-6%; animation-delay:0s;}
-  .floating-tag.tag2{ bottom:10%; right:-8%; animation-delay:1.2s; background:var(--navy); color:var(--cream);}
-  .floating-tag.tag3{ top:46%; right:-12%; animation-delay:2.4s;}
+  .floating-tag.tag2{ bottom:10%; left:-8%; animation-delay:1.2s; background:var(--navy); color:var(--cream);}
+  .floating-tag.tag3{ top:46%; right:-8%; animation-delay:2.4s;}
   @keyframes floaty{
     0%,100%{transform:translateY(0px);}
     50%{transform:translateY(-12px);}
@@ -564,6 +637,23 @@
     scrollbar-width:none;
   }
   .testi-track::-webkit-scrollbar{display:none;}
+  .testi-track .testi-card{scroll-snap-stop:always;}
+  .testi-dots{
+    display:none;
+    justify-content:center;
+    gap:8px;
+    margin-top:18px;
+  }
+  .testi-dots span{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:rgba(39,49,79,0.18);
+    transition:background 0.25s ease, transform 0.25s ease;
+  }
+  .testi-dots span.active{
+    background:var(--coral);
+    transform:scale(1.3);
+  }
   .testi-card{
     flex:0 0 320px;
     scroll-snap-align:start;
@@ -742,13 +832,18 @@
 
   /* ====== RESPONSIVE ====== */
   @media (max-width: 980px){
-    nav ul, .nav-cta{display:none;}
-    .nav-toggle{display:block;}
-    .hero-inner{grid-template-columns:1fr; text-align:center;}
+    .nav-wrap{padding:12px 20px;}
+    nav, .nav-cta{display:none;}
+    .nav-toggle{display:flex;}
+    .hero{padding:110px 20px 60px; min-height:auto;}
+    .hero-inner{grid-template-columns:1fr; text-align:center; gap:40px;}
     .hero p.lead{margin-inline:auto;}
     .hero-buttons{justify-content:center;}
     .hero-portrait{order:-1;}
-    .about{grid-template-columns:1fr; padding:36px;}
+    .portrait-frame{width:min(280px, 70vw);}
+    .about{grid-template-columns:1fr; padding:36px; gap:32px;}
+    .about-photo{max-width:320px; margin:0 auto; width:100%;}
+    .about-stats{justify-content:center;}
     .method-grid{grid-template-columns:repeat(2,1fr);}
     .class-grid{grid-template-columns:1fr;}
     .gallery-grid{grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(3,160px);}
@@ -756,14 +851,70 @@
     .gallery-grid .g2{grid-column:1/2; grid-row:2/3;}
     .gallery-grid .g3{grid-column:2/3; grid-row:2/3;}
     .gallery-grid .g4{grid-column:1/3; grid-row:3/4;}
-    .contact-box{grid-template-columns:1fr; padding:36px;}
+    .contact-box{grid-template-columns:1fr; padding:36px; gap:36px;}
   }
-  @media (max-width: 560px){
-    .method-grid{grid-template-columns:1fr;}
+
+  @media (max-width: 640px){
+    .brand{gap:8px; font-size:0.8rem;}
+    .brand img{height:34px; width:34px;}
+    .brand small{font-size:0.6rem;}
+    .nav-toggle{width:40px; height:40px;}
+
+    .hero{padding:96px 16px 50px;}
+    .eyebrow{font-size:0.7rem; padding:7px 14px;}
+    .hero h1{font-size:clamp(2rem, 8vw, 2.6rem); line-height:1.15;}
+    .hero p.lead{font-size:0.96rem;}
+    .hero-buttons{flex-direction:column; width:100%; gap:12px;}
+    .btn{width:100%; justify-content:center; padding:15px 24px;}
+
     .floating-tag{display:none;}
-    section{padding:70px 18px;}
-    .about{padding:26px;}
-    .contact-box{padding:26px;}
+
+    section{padding:60px 16px;}
+    .section-title{font-size:1.55rem;}
+    .section-desc{font-size:0.92rem;}
+
+    .about{padding:24px; border-radius:20px;}
+    .about-text h3{font-size:1.35rem;}
+    .about-stats{gap:12px;}
+    .about-stats div{flex:1; min-width:0; padding:12px 10px;}
+    .about-stats strong{font-size:1.2rem;}
+
+    .method-grid{grid-template-columns:1fr; gap:16px; margin-top:32px;}
+    .method-card{padding:24px 20px;}
+
+    .class-grid{gap:16px; margin-top:32px;}
+    .class-card{padding:28px 22px; min-height:auto;}
+    .class-card .grade{font-size:2.1rem;}
+
+    .gallery-grid{
+      grid-template-columns:1fr;
+      grid-template-rows:none;
+      gap:14px;
+      margin-top:32px;
+    }
+    .gallery-grid .g-item{grid-column:auto !important; grid-row:auto !important; height:220px;}
+
+    .testimoni-wrap{margin-top:32px;}
+    .testi-card{flex:0 0 86vw;}
+    .testi-dots{display:flex;}
+
+    .contact-box{padding:24px; border-radius:20px;}
+    .contact-info h2{font-size:1.5rem;}
+    .contact-list a, .contact-list div{font-size:0.88rem;}
+    form.contact-form{padding:22px;}
+
+    .wa-float{width:52px; height:52px; bottom:18px; right:18px;}
+    .wa-float svg{width:24px; height:24px;}
+
+    /* mobile nav width on very small screens */
+    .mobile-nav{width:82%; padding:90px 24px 30px;}
+    .mobile-nav a{font-size:1.1rem; padding:14px 0;}
+  }
+
+  @media (max-width: 380px){
+    .hero h1{font-size:1.85rem;}
+    .about-stats{flex-wrap:wrap;}
+    .about-stats div{min-width:90px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -777,10 +928,9 @@
 <header>
   <div class="nav-wrap">
     <div class="brand">
-      <img src="https://i.ibb.co.com/5Xb4Crkq/Logo-Sekolah-01.png" alt="Logo SMP Muhammadiyah 9 Nagreg">
       <div>
         Mrs. Nuri Frasna Vitara
-        <small>SMP Muhammadiyah 9 Nagreg</small>
+        <small>English Teacher</small>
       </div>
     </div>
     <nav>
@@ -793,9 +943,21 @@
       </ul>
     </nav>
     <a href="#contact" class="nav-cta">Hubungi Saya</a>
-    <button class="nav-toggle" aria-label="menu">☰</button>
+    <button class="nav-toggle" aria-label="Buka menu" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<div class="nav-backdrop" id="navBackdrop"></div>
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#about">Tentang</a>
+  <a href="#methods">Metode</a>
+  <a href="#classes">Kelas</a>
+  <a href="#gallery">Galeri</a>
+  <a href="#testimoni">Testimoni</a>
+  <a href="#contact" class="nav-cta">Hubungi Saya</a>
+</nav>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
@@ -804,7 +966,7 @@
   <div class="blob b3"></div>
   <div class="hero-inner">
     <div>
-      <span class="eyebrow">👋 Hello, Students!</span>
+      <span class="eyebrow">Assalamu'alaikum</span>
       <h1>Belajar Bahasa Inggris jadi
         <span>seru &amp; bermakna
           <svg viewBox="0 0 300 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -817,7 +979,7 @@
         English Teacher di SMP Muhammadiyah 9 Nagreg. Mengajak siswa untuk percaya diri berbicara, menulis, dan berpikir dalam Bahasa Inggris melalui metode yang menyenangkan, kreatif, dan penuh semangat.
       </p>
       <div class="hero-buttons">
-        <a href="#classes" class="btn btn-primary">📚 Lihat Kelas</a>
+        <a href="#classes" class="btn btn-primary">Lihat Kelas</a>
         <a href="#contact" class="btn btn-secondary">💬 Hubungi Saya</a>
       </div>
     </div>
@@ -850,7 +1012,7 @@
       </p>
       <div class="about-stats">
         <div>
-          <strong>3+</strong>
+          <strong>5+</strong>
           <span>Tahun Mengajar</span>
         </div>
         <div>
@@ -911,6 +1073,7 @@
         <h4>Foundation English</h4>
         <p>Membangun dasar kosakata, ucapan salam, dan kalimat sederhana sehari-hari.</p>
         <ul>
+          <li>Alignment of Understanding</li>
           <li>Introduction &amp; Greetings</li>
           <li>Simple Present Tense</li>
           <li>Daily Vocabulary</li>
@@ -1025,6 +1188,12 @@
         </div>
       </div>
     </div>
+    <div class="testi-dots" id="testiDots">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 </section>
 
@@ -1036,14 +1205,14 @@
       <h2>Punya pertanyaan seputar pelajaran?</h2>
       <p>Jangan ragu untuk menghubungi Mrs. Nuri melalui WhatsApp, email, atau kunjungi langsung sekolah. Let's make English learning fun together!</p>
       <div class="contact-list">
-        <a href="https://wa.me/6285793259563" target="_blank" rel="noopener">
-          <span class="ic">💬</span> +62 857-9325-9563 (WhatsApp)
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">
+          <span class="ic">💬</span> +62 812-3456-7890 (WhatsApp)
         </a>
-        <a href="mailto:nuri.frasna@smpmuh9nagreg.sch.id">
-          <span class="ic">✉️</span> nuri.frasna@smpmuh9nagreg.sch.id
+        <a href="mailto:nurifrasnavitara7@gmail.com">
+          <span class="ic">✉️</span> nurifrasnavitara7@gmail.com
         </a>
         <div>
-          <span class="ic">📍</span> SMP Muhammadiyah 9 Nagreg, Kabupaten Bandung, Jawa Barat
+          <span class="ic">📍</span> Kp. Ranca - Desa Ciaro - Kec. Nagreg
         </div>
       </div>
     </div>
@@ -1060,9 +1229,6 @@
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="foot-brand">
-    <img src="https://i.ibb.co.com/5Xb4Crkq/Logo-Sekolah-01.png" alt="Logo Sekolah">
-    SMP Muhammadiyah 9 Nagreg
-  </div>
   <p>&copy; 2026 Mrs. Nuri Frasna Vitara — English Teacher. All rights reserved.</p>
 </footer>
 
@@ -1084,15 +1250,22 @@
   }, { threshold: 0.15 });
   revealEls.forEach(el => observer.observe(el));
 
-  // Header shadow on scroll
+  // Header hide on scroll down, show on scroll up
   const header = document.querySelector('header');
+  let lastScroll = 0;
+  let headerHeight = header.offsetHeight;
   window.addEventListener('scroll', () => {
-    if(window.scrollY > 20){
-      header.style.boxShadow = '0 6px 24px -16px rgba(39,49,79,0.4)';
-    } else {
-      header.style.boxShadow = 'none';
+    const curr = window.scrollY;
+    header.style.boxShadow = curr > 20 ? '0 6px 24px -16px rgba(39,49,79,0.4)' : 'none';
+    if(curr <= 0){
+      header.style.transform = 'translateY(0)';
+    } else if(curr > lastScroll && curr > headerHeight){
+      header.style.transform = 'translateY(-105%)';
+    } else if(curr < lastScroll){
+      header.style.transform = 'translateY(0)';
     }
-  });
+    lastScroll = curr;
+  }, { passive: true });
 
   // Contact form (demo)
   const form = document.getElementById('contactForm');
@@ -1104,21 +1277,42 @@
     setTimeout(() => msg.style.display = 'none', 4000);
   });
 
-  // Mobile nav toggle (simple smooth-scroll fallback already handled via anchor links)
-  const toggle = document.querySelector('.nav-toggle');
-  const navUl = document.querySelector('nav ul');
-  toggle.addEventListener('click', () => {
-    navUl.style.display = navUl.style.display === 'flex' ? 'none' : 'flex';
-    navUl.style.flexDirection = 'column';
-    navUl.style.position = 'absolute';
-    navUl.style.top = '70px';
-    navUl.style.right = '20px';
-    navUl.style.background = '#fff';
-    navUl.style.padding = '20px 28px';
-    navUl.style.borderRadius = '16px';
-    navUl.style.boxShadow = '0 18px 40px -18px rgba(39,49,79,0.25)';
-    navUl.style.gap = '14px';
-  });
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  const navBackdrop = document.getElementById('navBackdrop');
+
+  function closeMobileNav(){
+    navToggle.classList.remove('active');
+    mobileNav.classList.remove('open');
+    navBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function toggleMobileNav(){
+    const isOpen = mobileNav.classList.contains('open');
+    if(isOpen){
+      closeMobileNav();
+    } else {
+      navToggle.classList.add('active');
+      mobileNav.classList.add('open');
+      navBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  navToggle.addEventListener('click', toggleMobileNav);
+  navBackdrop.addEventListener('click', closeMobileNav);
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+  // Testimoni dots
+  const testiTrack = document.querySelector('.testi-track');
+  const testiDots = document.querySelectorAll('#testiDots span');
+  if(testiTrack && testiDots.length){
+    testiTrack.addEventListener('scroll', () => {
+      const cardWidth = testiTrack.children[0].offsetWidth + 24;
+      const index = Math.round(testiTrack.scrollLeft / cardWidth);
+      testiDots.forEach((d,i) => d.classList.toggle('active', i === index));
+    });
+  }
 </script>
 
 </body>
